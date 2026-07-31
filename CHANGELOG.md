@@ -1,3 +1,9 @@
+## 3.1.15 (Oct 19, 2026).
+
+BUG FIXES:
+
+* resource/xray_settings: Make `db_sync_updates_time` attribute optional so users can configure Artifactory/Xray integration settings without being forced to specify the internal DB sync schedule. When omitted, the provider preserves the existing server value. Issue: [#425](https://github.com/jfrog/terraform-provider-xray/issues/425) PR: [#426](https://github.com/jfrog/terraform-provider-xray/pull/426)
+
 ## 3.1.14 (September 08, 2026). Tested on JFrog Platform 11.6.3 (Artifactory 7.161.24, Xray 3.150.34, Catalog 1.46.1) with Terraform 1.16.1 and OpenTofu 1.12.6
 
 FEATURES:
@@ -64,8 +70,6 @@ SECURITY:
 BUG FIXES:
 
 * resource/xray_repository_config: Fix perpetual diff on the `paths_config` block when `pattern.exclude` is not set. The API returns an empty string for an unset exclusion, which was stored in state as an empty string instead of null, so every `terraform plan` showed the whole `paths_config` block being removed and re-added.
-
-* resource/xray_settings: Make `db_sync_updates_time` attribute optional so users can configure Artifactory/Xray integration settings without being forced to specify the internal DB sync schedule. When omitted, the provider preserves the existing server value. Issue: [#425](https://github.com/jfrog/terraform-provider-xray/issues/425) PR: [#426](https://github.com/jfrog/terraform-provider-xray/pull/426)
 
 * resource/xray_curation_policy: Fix false `Decision owners required` validation error when `decision_owners` is sourced from another resource, module variable, or other value that is unknown until apply, while `waiver_request_config = "manual"`. The `decisionOwnersRequiredValidator` now skips unknown values and defers validation to the plan phase. Issue: [#433](https://github.com/jfrog/terraform-provider-xray/issues/433)
 
