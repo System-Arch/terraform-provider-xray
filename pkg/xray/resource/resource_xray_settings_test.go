@@ -150,6 +150,14 @@ func TestAccSettings_noDbSyncTime(t *testing.T) {
 				),
 			},
 			{
+				Config: config,
+				ConfigPlanChecks: resource.ConfigPlanChecks{
+					PreApply: []plancheck.PlanCheck{
+						plancheck.ExpectEmptyPlan(),
+					},
+				},
+			},
+			{
 				ResourceName:      fqrn,
 				ImportState:       true,
 				ImportStateVerify: true,
