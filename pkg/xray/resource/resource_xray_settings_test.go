@@ -151,6 +151,22 @@ func TestAccSettings_noDbSyncTime(t *testing.T) {
 				),
 			},
 			{
+				// Also resets the timeouts to their defaults, so the next step is an Update.
+				Config: dbSyncTimeConfig(resourceName, "18:45"),
+				Check:  resource.TestCheckResourceAttr(fqrn, "db_sync_updates_time", "18:45"),
+			},
+			{
+				Config: config,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(fqrn, "enabled", "true"),
+					resource.TestCheckResourceAttr(fqrn, "allow_blocked", fmt.Sprintf("%t", testData["allowBlocked"])),
+					resource.TestCheckResourceAttr(fqrn, "allow_when_unavailable", fmt.Sprintf("%t", testData["allowWhenUnavailable"])),
+					resource.TestCheckResourceAttr(fqrn, "block_unscanned_timeout", fmt.Sprintf("%d", testData["blockUnscannedTimeout"])),
+					resource.TestCheckResourceAttr(fqrn, "block_unfinished_scans_timeout", fmt.Sprintf("%d", testData["blockUnfinishedScansTimeout"])),
+					resource.TestCheckResourceAttr(fqrn, "db_sync_updates_time", "18:45"),
+				),
+			},
+			{
 				Config: config,
 				ConfigPlanChecks: resource.ConfigPlanChecks{
 					PreApply: []plancheck.PlanCheck{
